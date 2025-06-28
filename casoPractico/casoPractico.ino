@@ -2,7 +2,7 @@
 * Universidad Fidélitas                     *
 * Curso: Paradigmas de la programación      *
 * Autor: GRUPO 3                            *
-* Archivo: casoPractico.ino              *
+* Archivo: casoPractico.ino                 *
 * Fecha: 27-6-2025                          *               
 ********************************************/
 
