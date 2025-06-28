@@ -31,7 +31,7 @@ int minutes = 34;
 int seconds = 50;
 
 /*****************************************************
-*Definicion de funciones y metodos del sistema   *
+*Definicion de funciones y metodos del sistema        *
 *****************************************************/
 void displayBCD(int decena, int pin[4]) {
   for (int i = 0; i < 4; i++) {
