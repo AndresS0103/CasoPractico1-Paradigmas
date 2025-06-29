@@ -14,7 +14,10 @@
 *Definicion de las constantes del sistema   *
 ********************************************/
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 #define BTN_ALARMA A0      
 #define BTN_editarAR A1
 #define BTN_SUBIR   A2
@@ -34,6 +37,7 @@ int MIN_D[4] = {41, 40, 39, 38};
 int HRS_U[4] = {37, 36, 35, 34};
 int HRS_D[4] = {33, 32, 31, 30};
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 int hours   = 12;
 int minutes = 34;
@@ -76,6 +80,27 @@ void displayBCD(int digito, int pin[4]) {
 }
 
 void refrescar() {
+=======
+int hora = 12, minuto = 34, segundo = 50;
+//variables relog
+int alarmaHora = 0, alarmaMinuto = 0;  
+bool editar = 0, selMin = 0, parpadeo = 1;
+//variables alarma
+bool modoAlarma = 0;                   
+bool editandoAlarma = 0, selMinAlarma = 0, parpadeoAlarma = 1;
+long t0, tParpadeo, tIndicador;
+
+/*****************************************************
+*Definicion de funciones y metodos del sistema        *
+*****************************************************/
+
+void displayBCD(int digito, int pin[4]) { 
+  for (int i = 0; i < 4; i++) 
+    digitalWrite(pin[i], (digito >> i) & 1); 
+}
+
+void refrescar() {
+>>>>>>> Stashed changes
    // Modo alarma
   if (modoAlarma) {
     displayBCD(15, SEC_U);                   
@@ -257,5 +282,8 @@ void loop() {
 
   refrescar();
 }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
