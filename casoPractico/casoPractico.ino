@@ -18,6 +18,13 @@
 #define BTN_SUBIR   A2
 #define BTN_BAJAR A3
 #define BTN_SELECCIONAR A7
+#define BTN_TONO A6
+
+int leds[] = {22, 23, 24, 25, 26, 27}; 
+int tonoSeleccionado = 0;   
+bool modoSeleccionTono = false;
+bool alarmaActiva = false;  
+long tAlarmaInicio = 0;
 
 /*****************************************************
 *Definicion de las variables y objetos del sistema   *
@@ -98,6 +105,8 @@ void setup() {
   pinMode(BTN_SUBIR, INPUT_PULLUP);
   pinMode(BTN_BAJAR, INPUT_PULLUP);
   pinMode(BTN_SELECCIONAR, INPUT_PULLUP);
+  pinMode(BTN_TONO, INPUT_PULLUP);
+  for (int i = 0; i < 6; i++) pinMode(leds[i], OUTPUT);
   
   delay(1000);
 
@@ -113,6 +122,67 @@ void loop() {
   static bool presionadoBajar = true;
   static bool presionadoSeleccionar = true;
   static bool presionadoAlarma = true;
+  static bool presionadoTono = true;
+  static bool presionadoIzq = true;
+  static bool presionadoDer = true;
+  static bool presionadoCentro = true;
+
+if (presionado(BTN_TONO) && !presionadoTono) {
+  modoSeleccionTono = !modoSeleccionTono; 
+  delay(180);
+}
+presionadoTono = presionado(BTN_TONO);
+
+if (modoSeleccionTono) {
+  // actualizar la visualización de LEDs
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(leds[i], LOW);
+  }
+  digitalWrite(leds[tonoSeleccionado], HIGH);
+
+  if (presionado(BTN_editarAR) && !presionadoIzq) {
+    tonoSeleccionado = (tonoSeleccionado + 5) % 6; 
+    delay(180);
+  }
+  if (presionado(BTN_SELECCIONAR) && !presionadoDer) {
+    tonoSeleccionado = (tonoSeleccionado + 1) % 6; 
+    delay(180);
+  }
+  if (presionado(BTN_ALARMA) && !presionadoCentro) {
+    modoSeleccionTono = false; 
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(leds[i], LOW);
+    }
+    delay(180);
+  }
+  presionadoIzq = presionado(BTN_editarAR);
+  presionadoDer = presionado(BTN_SELECCIONAR);
+  presionadoCentro = presionado(BTN_ALARMA);
+}
+// Verifica coincidencia solo cuando no esté editando
+if (!modoAlarma && !editar) {
+  if (hora == alarmaHora && minuto == alarmaMinuto && segundo == 0) {
+    alarmaActiva = true;
+    tAlarmaInicio = millis();
+  }
+}
+
+// Si la alarma está activa, parpadea el LED elegido
+if (alarmaActiva) {
+  long ahora = millis();
+  if (ahora - tAlarmaInicio <= 60000) {
+    // Parpadeo cada 500 ms
+    if ((ahora / 500) % 2 == 0) {
+      digitalWrite(leds[tonoSeleccionado], HIGH);
+    } else {
+      digitalWrite(leds[tonoSeleccionado], LOW);
+    }
+  } else {
+    alarmaActiva = false;
+    digitalWrite(leds[tonoSeleccionado], LOW);
+  }
+}
+
   
   // Manejo del botón de alarma
   if (presionado(BTN_ALARMA) && !presionadoAlarma) {
