@@ -20,7 +20,7 @@
 #define BTN_SELECCIONAR A7
 #define BTN_TONO A6
 
-int leds[] = {22, 23, 24, 25, 26, 27}; 
+int leds[] = {24, 25, 26, 27, 28, 29}; 
 int tonoSeleccionado = 0;   
 bool modoSeleccionTono = false;
 bool alarmaActiva = false;  
