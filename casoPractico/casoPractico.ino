@@ -128,36 +128,33 @@ void loop() {
   static bool presionadoCentro = true;
 
 if (presionado(BTN_TONO) && !presionadoTono) {
-  modoSeleccionTono = !modoSeleccionTono; 
+  if (modoSeleccionTono) {
+    // confirmar el led para el tono
+    modoSeleccionTono = false;
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(leds[i], LOW);
+    }
+  } else {
+    // se entra en el modo para escoger el tono,si no se esta en modo de elegir
+    modoSeleccionTono = true;
+  }
   delay(180);
 }
 presionadoTono = presionado(BTN_TONO);
 
 if (modoSeleccionTono) {
-  // actualizar la visualización de LEDs
+  // se apagan los leds y enciende el seleccionado
   for (int i = 0; i < 6; i++) {
     digitalWrite(leds[i], LOW);
   }
   digitalWrite(leds[tonoSeleccionado], HIGH);
 
-  if (presionado(BTN_editarAR) && !presionadoIzq) {
-    tonoSeleccionado = (tonoSeleccionado + 5) % 6; 
-    delay(180);
-  }
+  // mover a la derecha los leds
   if (presionado(BTN_SELECCIONAR) && !presionadoDer) {
     tonoSeleccionado = (tonoSeleccionado + 1) % 6; 
     delay(180);
   }
-  if (presionado(BTN_ALARMA) && !presionadoCentro) {
-    modoSeleccionTono = false; 
-    for (int i = 0; i < 6; i++) {
-      digitalWrite(leds[i], LOW);
-    }
-    delay(180);
-  }
-  presionadoIzq = presionado(BTN_editarAR);
   presionadoDer = presionado(BTN_SELECCIONAR);
-  presionadoCentro = presionado(BTN_ALARMA);
 }
 // Verifica coincidencia solo cuando no esté editando
 if (!modoAlarma && !editar) {
